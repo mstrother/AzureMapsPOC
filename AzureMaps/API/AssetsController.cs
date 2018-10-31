@@ -38,9 +38,10 @@ namespace AzureMaps.API
         private IEnumerable<GeographyPoint> GetAssets()
         {
             var indexClient = CreateSearchIndexClient();
+            var filter = $"search.in(cid, '{Configuration["CId"]}')";
             var searchParameters = new SearchParameters()
             {
-                Filter = ($"search.in(cid, '{Configuration["CId"]}')"),
+                Filter = filter,
                 Select = new[] { "geolocation"}
             };            
 
