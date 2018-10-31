@@ -44,7 +44,7 @@ namespace AzureMaps.API
             var indexClient = CreateSearchIndexClient();
             var searchParameters = new SearchParameters()
             {
-                Filter = "search.in(cid, 'qq0tt80vx657601de23jk41o89849t')",
+                Filter = ($"search.in(cid, '{Configuration["CId"]}')"),
                 Select = new[] { "geolocation"}
             };            
 
