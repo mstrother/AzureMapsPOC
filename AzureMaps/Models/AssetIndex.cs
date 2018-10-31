@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AzureMaps.Models
 {
-    public class Asset
+    public class AssetIndex
     {
         [JsonProperty("indexkey_serialnumber")]
         [System.ComponentModel.DataAnnotations.Key]

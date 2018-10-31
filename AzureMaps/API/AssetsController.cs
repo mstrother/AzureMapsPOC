@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AzureMaps.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Spatial;
-using Newtonsoft.Json;
 
 namespace AzureMaps.API
 {
@@ -48,10 +44,10 @@ namespace AzureMaps.API
                 Select = new[] { "geolocation"}
             };            
 
-            var searchResults = indexClient.Documents.Search<Asset>("*", searchParameters);                      
+            var searchResults = indexClient.Documents.Search<AssetIndex>("*", searchParameters);                      
             var points = new List<GeographyPoint>();
 
-            foreach (SearchResult<Asset> result in searchResults.Results)
+            foreach (SearchResult<AssetIndex> result in searchResults.Results)
             {
                 points.Add(result.Document.GeoLocation);
             }
