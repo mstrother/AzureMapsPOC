@@ -12,14 +12,28 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
     <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
 
-    <script>        
-        function GetMap() {
-            atlas.setSubscriptionKey('@Model.AzureMapsSubscriptionKey');
-            map = new atlas.Map("map", {
+    <script>
+        atlas.setSubscriptionKey('@Model.AzureMapsSubscriptionKey');     
+        atlas.setLanguage('en');
+        function addPins(data, dataSource, map) {
+            let pins = [];
+            data.forEach(function (pinLocation) {
+                if (pinLocation) {
+                    console.log(pinLocation);
+                    console.log(pinLocation.longitude);
+                    let pin = new atlas.data.Feature(new atlas.data.Point([pinLocation.longitude, pinLocation.latitude]));
+                    pins.push(pin);
+                }
             });
-            client = new atlas.service.Client(atlas.getSubscriptionKey());
-
+            dataSource.add(pins);
+            map.setCamera({
+                bounds: atlas.data.BoundingBox.fromData(pins)
+            });
+        }
+        function GetMap() {
+            let map = new atlas.Map("map");
             map.events.add('load', function () {
+
                 var compassControl = new atlas.control.CompassControl();
                 map.controls.add(compassControl, {
                     position: "bottom-right"
@@ -34,7 +48,6 @@
                 map.controls.add(pitchControl, {
                     position: "bottom-right"
                 });
-
                 var styleControl = new atlas.control.StyleControl();
                 map.controls.add(styleControl, {
                     position: "bottom-right"
@@ -46,25 +59,9 @@
                 var pinLayer = new atlas.layer.SymbolLayer(dataSource);
                 map.layers.add(pinLayer);
 
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    var pins = [];
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            var pinLocations = JSON.parse(xhr.response);
-                            pinLocations.forEach(function (pinLocation) {
-                                if (pinLocation != null) {
-                                    var pin = new atlas.data.Feature(new atlas.data.Point([pinLocation.longitude, pinLocation.latitude]));
-                                    pins.push(pin);
-                                }
-                            });
-                            dataSource.add(pins);
-                        }
-                    }
-                }
-
-                xhr.open('GET', '/api/assets', true);
-                xhr.send();
+                fetch('/api/assets')
+                    .then(response => response.json())
+                    .then(data => addPins(data, dataSource, map));
             });
         }
     </script>
@@ -78,7 +75,6 @@
         }
 
         #map {
-            position: relative;
             width: 100%;
             height: 100%;
         }
