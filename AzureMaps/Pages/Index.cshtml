@@ -19,8 +19,6 @@
             let pins = [];
             data.forEach(function (pinLocation) {
                 if (pinLocation) {
-                    console.log(pinLocation);
-                    console.log(pinLocation.longitude);
                     let pin = new atlas.data.Feature(new atlas.data.Point([pinLocation.longitude, pinLocation.latitude]));
                     pins.push(pin);
                 }
