@@ -4,6 +4,9 @@
 # ignore appsettings configuration files
 **/appsettings.development.json
 
+# ignore publish profiles
+PublishProfiles/
+
 # User-specific files
 *.suo
 *.user
