@@ -13,7 +13,7 @@
     <script src="https://atlas.microsoft.com/sdk/js/atlas-service.js?api-version=1"></script>
 
     <script>
-        atlas.setSubscriptionKey('@Model.AzureMapsSubscriptionKey');     
+        atlas.setSubscriptionKey('@Model.AzureMapsSubscriptionKey');
         atlas.setLanguage('en');
         function addPins(data, dataSource, map) {
             let pins = [];
@@ -28,25 +28,25 @@
                 bounds: atlas.data.BoundingBox.fromData(pins)
             });
         }
-        function GetMap() {
+        function createMap() {
             let map = new atlas.Map("map");
             map.events.add('load', function () {
 
-                var compassControl = new atlas.control.CompassControl();
+                let compassControl = new atlas.control.CompassControl();
                 map.controls.add(compassControl, {
                     position: "bottom-right"
                 });
 
-                var zoomControl = new atlas.control.ZoomControl();
+                let zoomControl = new atlas.control.ZoomControl();
                 map.controls.add(zoomControl, {
                     position: "bottom-right"
                 });
 
-                var pitchControl = new atlas.control.PitchControl();
+                let pitchControl = new atlas.control.PitchControl();
                 map.controls.add(pitchControl, {
                     position: "bottom-right"
                 });
-                var styleControl = new atlas.control.StyleControl();
+                let styleControl = new atlas.control.StyleControl();
                 map.controls.add(styleControl, {
                     position: "bottom-right"
                 })
@@ -62,6 +62,9 @@
                     .then(data => addPins(data, dataSource, map));
             });
         }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            createMap();
+        });
     </script>
     <style>
         html,
@@ -78,7 +81,7 @@
         }
     </style>
 </head>
-<body onload="GetMap()">
+<body>
     <div id="map"></div>
 </body>
 </html>
