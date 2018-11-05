@@ -19,7 +19,7 @@
             let pins = [];
             data.forEach(function (pinLocation) {
                 if (pinLocation) {
-                    let pin = new atlas.data.Feature(new atlas.data.Point([pinLocation.longitude, pinLocation.latitude]));
+                    let pin = new atlas.data.Feature(new atlas.data.Point([pinLocation.longitude, pinLocation.latitude]));                  
                     pins.push(pin);
                 }
             });
@@ -60,6 +60,9 @@
                 fetch('/api/assets')
                     .then(response => response.json())
                     .then(data => addPins(data, dataSource, map));
+
+                map.addEventListener("click", pinLayer, (e) => {                   
+                })
             });
         }
         document.addEventListener("DOMContentLoaded", function (event) {
